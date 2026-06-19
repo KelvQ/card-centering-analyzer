@@ -147,24 +147,31 @@ function draw(){
 // =========================
 // CROSSHAIR LINES
 // =========================
+// =========================
+// CROSSHAIR LINES (PRO STYLE)
+// =========================
 function drawGuides(){
 
-    // OUTER (blue)
-    ctx.strokeStyle = "blue";
-    ctx.lineWidth = 2;
+    // OUTER (brighter blue)
+    ctx.strokeStyle = "rgb(0, 170, 255)";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 6]);
 
     drawLine(outer.left, "v");
     drawLine(outer.right, "v");
     drawLine(outer.top, "h");
     drawLine(outer.bottom, "h");
 
-    // INNER (red)
-    ctx.strokeStyle = "red";
+    // INNER (brighter red)
+    ctx.strokeStyle = "rgb(255, 60, 60)";
+    ctx.lineWidth = 1.5;
 
     drawLine(inner.left, "v");
     drawLine(inner.right, "v");
     drawLine(inner.top, "h");
     drawLine(inner.bottom, "h");
+
+    ctx.setLineDash([]);
 }
 
 function drawLine(pos, type){
