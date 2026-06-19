@@ -117,22 +117,24 @@ button:hover {
     color: #9aa4b2;
 }
 
-/* RESULT CARD (KPI STYLE) */
+/* RESULT CARD */
 .result {
     margin-top: 14px;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
 
-    background: rgba(76,125,255,0.08);
-    border: 1px solid rgba(76,125,255,0.25);
-
-    padding: 14px;
+    padding: 16px;
     border-radius: 14px;
 
     text-align: center;
-    color: #dbeafe;
 
-    letter-spacing: 0.3px;
+    color: white;
+
+    transition: 
+        background-color 0.3s ease,
+        transform 0.2s ease;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
 /* CANVAS WORKSPACE */

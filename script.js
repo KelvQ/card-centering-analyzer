@@ -306,7 +306,7 @@ window.onmouseup = () => {
 };
 
 // =========================
-// LIVE CENTERING
+// LIVE CENTERING + PSA ESTIMATE
 // =========================
 function updateCentering(){
 
@@ -320,7 +320,8 @@ function updateCentering(){
     let vertical = topBorder + bottomBorder;
 
     if(horizontal === 0 || vertical === 0){
-        document.getElementById("result").innerHTML = "Invalid guide setup";
+        document.getElementById("result").innerHTML =
+            "Invalid guide setup";
         return;
     }
 
@@ -330,8 +331,79 @@ function updateCentering(){
     let topPercent = (topBorder / vertical) * 100;
     let bottomPercent = 100 - topPercent;
 
-    document.getElementById("result").innerHTML = `
-        Horizontal: ${leftPercent.toFixed(2)}% L / ${rightPercent.toFixed(2)}% R<br>
-        Vertical: ${topPercent.toFixed(2)}% T / ${bottomPercent.toFixed(2)}% B
+
+    // =========================
+    // FIND WORST SIDE
+    // =========================
+    let horizontalOffset = Math.max(leftPercent, rightPercent);
+    let verticalOffset = Math.max(topPercent, bottomPercent);
+
+    // PSA uses the worst centering direction
+    let worstCentering = Math.max(
+        horizontalOffset,
+        verticalOffset
+    );
+
+
+    // =========================
+    // PSA ESTIMATE
+    // =========================
+    let grade;
+    let gradeColor;
+
+
+    if(worstCentering <= 55){
+        grade = "PSA 10 (Gem Mint)";
+        gradeColor = "#16a34a"; // green
+    }
+    else if(worstCentering <= 60){
+        grade = "PSA 9 (Mint)";
+        gradeColor = "#65a30d";
+    }
+    else if(worstCentering <= 65){
+        grade = "PSA 8.5 (NM-MT+)";
+        gradeColor = "#ca8a04";
+    }
+    else if(worstCentering <= 70){
+        grade = "PSA 8 (NM-MT)";
+        gradeColor = "#f59e0b";
+    }
+    else if(worstCentering <= 75){
+        grade = "PSA 7.5 (EX-MT+)";
+        gradeColor = "#ea580c";
+    }
+    else{
+        grade = "PSA 7 or below";
+        gradeColor = "#dc2626";
+    }
+
+
+    // =========================
+    // DISPLAY RESULT
+    // =========================
+    const result = document.getElementById("result");
+
+    result.style.backgroundColor = gradeColor;
+    result.style.color = "white";
+
+
+    result.innerHTML = `
+        <div>
+            Horizontal:
+            ${leftPercent.toFixed(2)}% L /
+            ${rightPercent.toFixed(2)}% R
+        </div>
+
+        <div>
+            Vertical:
+            ${topPercent.toFixed(2)}% T /
+            ${bottomPercent.toFixed(2)}% B
+        </div>
+
+        <hr>
+
+        <div style="font-size:26px;">
+            Estimated ${grade}
+        </div>
     `;
 }
