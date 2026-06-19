@@ -282,6 +282,42 @@ window.onmouseup = () => {
 };
 
 // =========================
+// CURSOR HOVER (LINE RESIZE FEEDBACK)
+// =========================
+canvas.addEventListener("mousemove", (e) => {
+
+    const {x, y} = getMouse(e);
+
+    const line = getLine(x, y);
+
+    // default cursor
+    canvas.style.cursor = "crosshair";
+
+    if(!line) return;
+
+    // vertical lines → left/right resize cursor
+    if(
+        line === "ol" ||
+        line === "or" ||
+        line === "il" ||
+        line === "ir"
+    ){
+        canvas.style.cursor = "ew-resize";
+    }
+
+    // horizontal lines → up/down resize cursor
+    if(
+        line === "ot" ||
+        line === "ob" ||
+        line === "it" ||
+        line === "ib"
+    ){
+        canvas.style.cursor = "ns-resize";
+    }
+
+});
+
+// =========================
 // CENTERING CALC
 // =========================
 function calculate(){
