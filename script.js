@@ -17,6 +17,25 @@ let dragging = null;
 const hitRange = 10;
 
 // =========================
+// CONTROL LOCK SYSTEM
+// =========================
+
+let imageLoaded = false;
+
+function setControlsLocked(locked){
+
+    const controls = document.querySelectorAll(".control");
+
+    controls.forEach(control => {
+        control.disabled = locked;
+    });
+}
+
+
+// lock controls initially
+setControlsLocked(true);
+
+// =========================
 // ROTATION
 // =========================
 document.getElementById("rotate").oninput = function(e){
@@ -96,6 +115,9 @@ document.getElementById("upload").onchange = function(e){
 
             canvas.width = img.width * scale;
             canvas.height = img.height * scale;
+
+            imageLoaded = true;
+            setControlsLocked(false);
 
             outer = {
                 left: canvas.width * 0.05,

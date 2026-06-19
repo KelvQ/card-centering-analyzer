@@ -178,3 +178,18 @@ canvas {
 .upload-btn:active {
     transform: scale(0.98);
 }
+
+.control:disabled {
+
+    opacity: 0.35;
+    cursor: not-allowed;
+
+    filter: grayscale(70%);
+}
+
+
+.control:disabled:hover {
+
+    transform: none;
+    background: rgba(255,255,255,0.06);
+}
