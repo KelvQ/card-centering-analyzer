@@ -1,0 +1,178 @@
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    background: radial-gradient(circle at top, #1a1f2e, #0b0d12);
+    color: #eaeaea;
+}
+
+/* MAIN APP */
+.app {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 20px;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.header h1 {
+    font-size: 28px;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.header p {
+    margin-top: 6px;
+    color: #9aa4b2;
+}
+
+/* CONTROL PANEL (GLASS STYLE) */
+.controls {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    margin-bottom: 16px;
+}
+
+/* ROW LAYOUT */
+.row {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+/* CONTROL CARDS */
+.control-group {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 14px;
+    border-radius: 14px;
+}
+
+/* LABELS */
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+/* BUTTON ROW */
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+/* BUTTONS */
+button {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #eaeaea;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+
+button:hover {
+    background: rgba(76,125,255,0.25);
+    border-color: rgba(76,125,255,0.4);
+    transform: translateY(-1px);
+}
+
+/* ANALYZE BUTTON (PRIMARY CTA) */
+.analyze {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 12px;
+
+    background: linear-gradient(135deg, #4c7dff, #3b6cff);
+    border: none;
+    color: white;
+
+    box-shadow: 0 10px 25px rgba(76,125,255,0.25);
+}
+
+.analyze:hover {
+    transform: translateY(-1px);
+}
+
+/* VALUE TEXT */
+.value {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #9aa4b2;
+}
+
+/* RESULT CARD (KPI STYLE) */
+.result {
+    margin-top: 14px;
+    font-size: 22px;
+    font-weight: 700;
+
+    background: rgba(76,125,255,0.08);
+    border: 1px solid rgba(76,125,255,0.25);
+
+    padding: 14px;
+    border-radius: 14px;
+
+    text-align: center;
+    color: #dbeafe;
+
+    letter-spacing: 0.3px;
+}
+
+/* CANVAS WORKSPACE */
+canvas {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: #000;
+
+    cursor: crosshair;
+
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+/* UPLOAD BUTTON (REFINED) */
+.upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    background: linear-gradient(135deg, #4c7dff, #3b6cff);
+    color: white;
+
+    padding: 10px 14px;
+    border-radius: 12px;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+    box-shadow: 0 10px 20px rgba(76,125,255,0.25);
+}
+
+.upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(76,125,255,0.35);
+}
+
+.upload-btn:active {
+    transform: scale(0.98);
+}

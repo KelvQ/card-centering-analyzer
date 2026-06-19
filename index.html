@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Card Centering Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="header">
+        <h1>Card Centering Analyzer</h1>
+    </div>
+
+    <div class="controls">
+
+        <!-- UPLOAD BUTTON -->
+        <label for="upload" class="upload-btn">
+            📤 Upload File
+        </label>
+
+        <input type="file" id="upload" hidden>
+
+        <div class="row">
+
+            <!-- ROTATION -->
+            <div class="control-group">
+                <label>Rotation</label>
+
+                <div class="btn-row">
+                    <button onclick="nudgeRotate(-1)">-1°</button>
+                    <button onclick="nudgeRotate(-0.1)">-0.1°</button>
+                    <button onclick="nudgeRotate(0.1)">+0.1°</button>
+                    <button onclick="nudgeRotate(1)">+1°</button>
+                </div>
+
+                <input type="range" id="rotate" min="-45" max="45" step="0.1" value="0">
+
+                <div class="value" id="angleLabel">0.00°</div>
+            </div>
+
+            <!-- ZOOM -->
+            <div class="control-group">
+                <label>Zoom</label>
+
+                <div class="btn-row">
+                    <button onclick="nudgeZoom(-0.05)">-</button>
+                    <button onclick="nudgeZoom(-0.01)">-.01</button>
+                    <button onclick="nudgeZoom(0.01)">+.01</button>
+                    <button onclick="nudgeZoom(0.05)">+</button>
+                </div>
+
+                <input type="range" id="zoom" min="0.5" max="3" step="0.01" value="1">
+
+                <div class="value" id="zoomLabel">1.000x</div>
+            </div>
+
+        </div>
+
+        <button class="analyze" onclick="calculate()">Analyze Centering</button>
+
+        <div class="result" id="result"></div>
+
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
