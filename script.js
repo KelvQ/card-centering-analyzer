@@ -17,13 +17,15 @@ let dragging = null;
 const hitRange = 10;
 
 // =========================
-// ROTATION CONTROLS
+// ROTATION
 // =========================
 document.getElementById("rotate").oninput = function(e){
     angle = parseFloat(e.target.value) * Math.PI / 180;
     document.getElementById("angleLabel").innerText =
         parseFloat(e.target.value).toFixed(2) + "°";
+
     draw();
+    updateCentering();
 };
 
 function nudgeRotate(amount){
@@ -31,7 +33,6 @@ function nudgeRotate(amount){
     let slider = document.getElementById("rotate");
 
     let val = parseFloat(slider.value) + amount;
-
     val = Math.max(-45, Math.min(45, val));
 
     slider.value = val;
@@ -42,15 +43,18 @@ function nudgeRotate(amount){
         val.toFixed(2) + "°";
 
     draw();
+    updateCentering();
 }
 
 // =========================
-// ZOOM CONTROLS
+// ZOOM
 // =========================
 document.getElementById("zoom").oninput = function(e){
     zoom = parseFloat(e.target.value);
     updateZoomLabel();
+
     draw();
+    updateCentering();
 };
 
 function nudgeZoom(amount){
@@ -58,7 +62,6 @@ function nudgeZoom(amount){
     let slider = document.getElementById("zoom");
 
     let val = parseFloat(slider.value) + amount;
-
     val = Math.max(0.5, Math.min(3.0, val));
 
     slider.value = val;
@@ -66,7 +69,9 @@ function nudgeZoom(amount){
     zoom = val;
 
     updateZoomLabel();
+
     draw();
+    updateCentering();
 }
 
 function updateZoomLabel(){
@@ -107,6 +112,7 @@ document.getElementById("upload").onchange = function(e){
             };
 
             draw();
+            updateCentering();
         };
 
         img.src = event.target.result;
@@ -116,7 +122,7 @@ document.getElementById("upload").onchange = function(e){
 };
 
 // =========================
-// DRAW PIPELINE
+// DRAW
 // =========================
 function draw(){
 
@@ -125,9 +131,6 @@ function draw(){
     const cx = canvas.width / 2;
     const cy = canvas.height / 2;
 
-    // =========================
-    // IMAGE (ZOOM + ROTATE)
-    // =========================
     ctx.save();
 
     ctx.translate(cx, cy);
@@ -138,21 +141,14 @@ function draw(){
 
     ctx.restore();
 
-    // =========================
-    // CROSSHAIR GUIDES
-    // =========================
     drawGuides();
 }
 
 // =========================
-// CROSSHAIR LINES
-// =========================
-// =========================
-// CROSSHAIR LINES (PRO STYLE)
+// GUIDES
 // =========================
 function drawGuides(){
 
-    // OUTER (brighter blue)
     ctx.strokeStyle = "rgb(0, 170, 255)";
     ctx.lineWidth = 1.5;
     ctx.setLineDash([6, 6]);
@@ -162,9 +158,7 @@ function drawGuides(){
     drawLine(outer.top, "h");
     drawLine(outer.bottom, "h");
 
-    // INNER (brighter red)
     ctx.strokeStyle = "rgb(255, 60, 60)";
-    ctx.lineWidth = 1.5;
 
     drawLine(inner.left, "v");
     drawLine(inner.right, "v");
@@ -190,7 +184,7 @@ function drawLine(pos, type){
 }
 
 // =========================
-// MOUSE
+// MOUSE HELPERS
 // =========================
 function getMouse(e){
 
@@ -202,9 +196,6 @@ function getMouse(e){
     };
 }
 
-// =========================
-// HIT DETECTION
-// =========================
 function getLine(x,y){
 
     const lines = [
@@ -232,7 +223,7 @@ function getLine(x,y){
 }
 
 // =========================
-// DRAG START
+// DRAGGING
 // =========================
 canvas.onmousedown = (e) => {
 
@@ -241,18 +232,47 @@ canvas.onmousedown = (e) => {
     dragging = getLine(pos.x, pos.y);
 };
 
-// =========================
-// DRAG MOVE
-// =========================
 window.onmousemove = (e) => {
 
+    const mouse = getMouse(e);
+
+    // =========================
+    // LIVE CURSOR HOVER
+    // =========================
+    const hoverLine = getLine(mouse.x, mouse.y);
+
+    canvas.style.cursor = "crosshair";
+
+    if(hoverLine){
+
+        if(
+            hoverLine === "ol" ||
+            hoverLine === "or" ||
+            hoverLine === "il" ||
+            hoverLine === "ir"
+        ){
+            canvas.style.cursor = "ew-resize";
+        }
+
+        if(
+            hoverLine === "ot" ||
+            hoverLine === "ob" ||
+            hoverLine === "it" ||
+            hoverLine === "ib"
+        ){
+            canvas.style.cursor = "ns-resize";
+        }
+    }
+
+    // =========================
+    // DRAG UPDATE
+    // =========================
     if(!dragging) return;
 
-    const {x,y} = getMouse(e);
+    const {x,y} = mouse;
 
     const minGap = 10;
 
-    // OUTER
     if(dragging === "ol")
         outer.left = Math.min(x, outer.right - minGap);
 
@@ -265,7 +285,6 @@ window.onmousemove = (e) => {
     if(dragging === "ob")
         outer.bottom = Math.max(y, outer.top + minGap);
 
-    // INNER
     if(dragging === "il")
         inner.left = Math.min(x, inner.right - minGap);
 
@@ -279,55 +298,17 @@ window.onmousemove = (e) => {
         inner.bottom = Math.max(y, inner.top + minGap);
 
     draw();
+    updateCentering();
 };
 
-// =========================
-// STOP DRAG
-// =========================
 window.onmouseup = () => {
     dragging = null;
 };
 
 // =========================
-// CURSOR HOVER (LINE RESIZE FEEDBACK)
+// LIVE CENTERING
 // =========================
-canvas.addEventListener("mousemove", (e) => {
-
-    const {x, y} = getMouse(e);
-
-    const line = getLine(x, y);
-
-    // default cursor
-    canvas.style.cursor = "crosshair";
-
-    if(!line) return;
-
-    // vertical lines → left/right resize cursor
-    if(
-        line === "ol" ||
-        line === "or" ||
-        line === "il" ||
-        line === "ir"
-    ){
-        canvas.style.cursor = "ew-resize";
-    }
-
-    // horizontal lines → up/down resize cursor
-    if(
-        line === "ot" ||
-        line === "ob" ||
-        line === "it" ||
-        line === "ib"
-    ){
-        canvas.style.cursor = "ns-resize";
-    }
-
-});
-
-// =========================
-// CENTERING CALC
-// =========================
-function calculate(){
+function updateCentering(){
 
     let leftBorder = inner.left - outer.left;
     let rightBorder = outer.right - inner.right;
