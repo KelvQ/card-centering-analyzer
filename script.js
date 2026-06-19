@@ -295,21 +295,19 @@ function calculate(){
     let horizontal = leftBorder + rightBorder;
     let vertical = topBorder + bottomBorder;
 
-    // prevent divide-by-zero errors
     if(horizontal === 0 || vertical === 0){
         document.getElementById("result").innerHTML = "Invalid guide setup";
         return;
     }
 
-    // decimals instead of rounding
-    let leftPercent = (leftBorder / horizontal * 100);
+    let leftPercent = (leftBorder / horizontal) * 100;
     let rightPercent = 100 - leftPercent;
 
-    let topPercent = (topBorder / vertical * 100);
+    let topPercent = (topBorder / vertical) * 100;
     let bottomPercent = 100 - topPercent;
 
     document.getElementById("result").innerHTML = `
-        Horizontal: ${leftPercent.toFixed(2)} / ${rightPercent.toFixed(2)}<br>
-        Vertical: ${topPercent.toFixed(2)} / ${bottomPercent.toFixed(2)}
+        Horizontal: ${leftPercent.toFixed(2)}% L / ${rightPercent.toFixed(2)}% R<br>
+        Vertical: ${topPercent.toFixed(2)}% T / ${bottomPercent.toFixed(2)}% B
     `;
 }
